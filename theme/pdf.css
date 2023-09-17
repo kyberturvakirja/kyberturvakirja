@@ -1,0 +1,24 @@
+@media print {
+  @page {
+    size: A5; /* Set the size of the printed page */
+    margin: 0; /* Remove default margins for printing */
+}
+
+/* Otsikkosivu */
+nav#table-of-contents::before {
+    content: "Kyberturvan pelikirja";
+    display: block;
+    background-color: blue;
+    color: white;
+    font-size: 11em;
+    text-align: center;
+}
+
+/* Pääotsikot ja sisältö omille sivuilleen */
+h1,nav {
+ 	page-break-before: always;
+}
+
+@page :first {
+  background-color: blue;
+}
