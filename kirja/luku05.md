@@ -7,7 +7,7 @@ osaamiseen ja tietoon, sekä niiden systemaattiseen hallintaan.
 Tietoturva on näissä tapauksissa tarpeen liittää osaksi yrityksen
 strategiaa.
 
-![Kyberturvamalli](malli.png)
+![Kyberturvamalli](./img/malli.png)
 
 ## Tietoturva strategiana -- ei erillisenä teknisenä toimenpiteenä
 

@@ -1,0 +1,60 @@
+
+name: Build Book
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - '.github/workflows/build.yml'
+      - 'kirja/**.md'
+      - 'kirja/img/**'
+      - 'theme/**.css'
+
+jobs:
+  converttopdf:
+    name: Build PDF and HTML
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Concatenate markdown files for single pdf
+        run: |
+          cat kirja/*.md > kyberturvakirja.md
+
+      - name: markdown to pdf
+        uses: baileyjm02/markdown-to-pdf@v1
+        with:
+          input_path: kyberturvakirja.md
+          images_dir: kirja/img
+          image_import: ./img                   # <img src="./img/file-name.png">
+          build_html: false
+          build_pdf: true
+          output_dir: output
+          theme: theme/pdf.css
+          extend_default_theme: true
+          table_of_contents: true
+
+      - name: markdown to html
+        uses: baileyjm02/markdown-to-pdf@v1
+        with:
+          input_path: kirja
+          images_dir: kirja/img
+          image_import: ./img                   # <img src="./img/file-name.png">
+          build_html: true
+          build_pdf: false
+          output_dir: output/html
+          theme: theme/html.css
+          extend_default_theme: true
+          table_of_contents: true
+
+      - uses: actions/upload-artifact@v3
+        with:
+          name: kyberturvakirja
+          path: output/
+
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          token: ${{ secrets.PUBLISHTOKEN }}
+          files: output/kyberturvakirja.pdf
